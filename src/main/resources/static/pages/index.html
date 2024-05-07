@@ -20,18 +20,50 @@
 <body>
     <div id="app" class="container mt-3">
 
-        <h1>我是docker project的首頁</h1>
-        <div class="card  mt-3" style="width: 18rem;">
-            <div class="card-header">
-                所有學生
-            </div>
-            <ul class="list-group list-group-flush">
-                <li v-for="s in sList" :key="s.sid" class="list-group-item">{{s.sname}}</li>
+        <h1>偷窺 GoodJobs 內容</h1>
 
-            </ul>
+        <!-- search -->
+        <div>
+            <div class="input-group mb-3 mt-3">
+                <input v-model="url" type="text" class="form-control"
+                    placeholder="貼上想偷窺的網址(https://www.goodjob.life/experiences/...)" aria-label="Recipient's username"
+                    aria-describedby="button-addon2">
+                <button @click="submitUrl()" class="btn btn-outline-secondary" type="button"
+                    id="button-addon2">Go</button>
+            </div>
+        </div>
+
+        <hr>
+        <div class="row align-content-center">
+            <div class="col-auto mt-2">
+                <span class="bg-warning mr-3 p-1 text-center text-white">#面試經驗</span>
+            </div>
+            <div class="col">
+                <h2>工程師</h2>
+            </div>
+        </div>
+
+        <div class="border mt-5" id="crawl">
+            <!-- basic info -->
+            <div class="bg-light p-3">
+                <div class="mb-2">公司：</div>
+                <div class="mb-2">面試地區：</div>
+                <div class="mb-2">應徵職稱：</div>
+                <div class="mb-2">相關職務工作經驗：</div>
+                <div class="mb-2">面試時間：</div>
+                <div class="mb-2">面試結果：</div>
+                <div class="mb-2">整體面試滿意度：</div>
+            </div>
+            <div class="p-3">
+                <h5>分享內容</h5>
+
+            </div>
+
+            <!-- share article -->
         </div>
 
 
+        {{pageContent}}
     </div>
 
 </body>
@@ -43,18 +75,23 @@
 
         data() {
             return {
-                sList: [],
+                pageContent: "",
+                url: "",
+            }
+        },
+        methods: {
+            submitUrl() {
+                let data = { url: this.url };
+                console.log(data);
+                axios.post("/crawl", data)
+                    .then((response) => {
+                        this.pageContent = response.data;
+                    })
             }
         },
 
         created() {
-            axios.post("/all")
-                .then((response) => {
-                    // console.log(response.data);
-                    response.data.forEach(element => {
-                        this.sList.push(element);
-                    })
-                })
+
         },
 
     }).mount("#app");
