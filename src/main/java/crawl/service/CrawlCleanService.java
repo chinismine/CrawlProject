@@ -53,12 +53,14 @@ public class CrawlCleanService {
 	//確認這個網址是否存在資料庫，若存在，搜尋次數++存入
 	public Boolean checkIsExistInTable(String url) {
 		String jid=url.replace("https://www.goodjob.life/experiences/", "");
+		
 		Optional<JobShareInfo> data = jobRepo.findById(jid);
 		if(data.isEmpty()) {
 			return false;
 		}else {
 			jobBean=data.get();	
-			jobBean.setSearchedCount(jobBean.getSearchedCount()+1);;		
+			jobBean.setSearchedCount(jobBean.getSearchedCount()+1);
+			jobBean.setJobId(jid);
 			jobRepo.save(jobBean);
 			return true;
 		}	
@@ -66,8 +68,8 @@ public class CrawlCleanService {
 	
 	//決定要用哪個方法（面試或工作經驗）
 	public Object formatData(String url) {
-		String submitUrl=url;
 		
+		String jid=url.replace("https://www.goodjob.life/experiences/", "");
 		try {
 			Document doc=Jsoup.connect(url).get();
 			Elements type=doc.select(".src-components-ExperienceDetail-Heading-__Heading-module___badge");
@@ -77,7 +79,7 @@ public class CrawlCleanService {
 				BeanUtils.copyProperties(interview, jobBean);
 				jobBean.setShareType(type.html());
 				jobBean.setSearchedCount(1);
-				jobBean.setJobId(submitUrl);
+				jobBean.setJobId(jid);
 				executor.submit(() -> {
 		            jobRepo.save(jobBean);
 		        });
@@ -87,7 +89,7 @@ public class CrawlCleanService {
 				BeanUtils.copyProperties(review, jobBean);
 				jobBean.setShareType(type.html());
 				jobBean.setSearchedCount(1);
-				jobBean.setJobId(submitUrl);
+				jobBean.setJobId(jid);
 				executor.submit(() -> {
 		            jobRepo.save(jobBean);
 		        });
