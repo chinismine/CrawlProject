@@ -9,6 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js"></script>
 
     <!-- 引入bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
@@ -18,8 +19,8 @@
 </head>
 
 <body>
-    <div id="app" class="container mt-3">
-        <div class="text-secondary text-end">開發期程：2024/5/6-</div>
+    <div id="app" class="container mt-3 mb-5">
+        <div class="text-secondary text-end">開發期程：2024/5/6-8</div>
         <h1>偷窺 GoodJobs 內容</h1>
         <!-- search-->
         <div>
@@ -33,15 +34,24 @@
             <div>{{errURLMsg}}</div>
         </div>
         <!-- search end-->
-        <hr>
 
         <template v-if="pageContent!=''">
+            <hr>
             <div class="row align-content-center">
                 <div class="col-auto mt-2">
-                    <span class="bg-warning mr-3 p-1 text-center text-white">#面試經驗</span>
+                    <span class="bg-warning mr-3 p-1 text-center text-white">#{{pageContent.shareType}}</span>
                 </div>
                 <div class="col">
-                    <h2>工程師</h2>
+                    <h2>{{pageContent.pageTitle}}</h2>
+                </div>
+                <div class="row">
+                    <template v-if="pageContent.searchedCount!=null">
+                        <div class="col-5  text-secondary"><i class="bi bi-eye-fill"></i> {{pageContent.searchedCount}}
+                        </div>
+                    </template>
+                    <template v-if="pageContent.shareDate!=''">
+                        <div class="col text-end text-secondary">分享時間：{{pageContent.shareDate}}</div>
+                    </template>
                 </div>
             </div>
 
@@ -49,51 +59,53 @@
                 <!-- basic info -->
                 <div class="bg-light p-3">
                     <template v-if="pageContent.companyName!=null">
-                        <div class="mb-2">公司：{{}}</div>
+                        <div class="mb-2">公司：{{pageContent.companyName}}</div>
                     </template>
                     <template v-if="pageContent.area!=null">
-                        <div class="mb-2">地區：{{}}</div>
+                        <div class="mb-2">地區：{{pageContent.area}}</div>
                     </template>
 
 
                     <template v-if="pageContent.jobTitle!=null">
-                        <div class="mb-2">職稱：{{}}</div>
+                        <div class="mb-2">職稱：{{pageContent.jobTitle}}</div>
                     </template>
 
                     <template v-if="pageContent.relativeExperienceYear!=null">
-                        <div class="mb-2">相關職務工作經驗：{{}}</div>
+                        <div class="mb-2">相關職務工作經驗：{{pageContent.relativeExperienceYear}} 年</div>
                     </template>
 
                     <template v-if="pageContent.interviewTime!=null">
-                        <div class="mb-2">面試時間：{{}}</div>
+                        <div class="mb-2">面試時間：{{pageContent.interviewTime}}</div>
                     </template>
 
                     <template v-if="pageContent.result!=null">
-                        <div class="mb-2">面試結果：</div>
+                        <div class="mb-2">面試結果：{{pageContent.result}}</div>
                     </template>
 
                     <template v-if="pageContent.treatment!=null">
-                        <div class="mb-2">待遇：</div>
+                        <div class="mb-2">待遇：{{pageContent.treatment}}</div>
                     </template>
 
                     <template v-if="pageContent.satisfactionScore!=null">
-                        <div class="mb-2">整體面試滿意度：</div>
+                        <div class="mb-2">整體面試滿意度：{{pageContent.satisfactionScore}}分
+                            <span class="text-secondary"><i>(滿分5分)</i></span>
+                        </div>
                     </template>
 
                     <template v-if="pageContent.oddQuestions!=null">
-                        <div class="mb-2">特殊問題：</div>
+                        <div class="mb-2">特殊問題：{{pageContent.oddQuestions}}</div>
                     </template>
 
                     <template v-if="pageContent.highestDegree!=null">
-                        <div class="mb-2">最高學歷：</div>
+                        <div class="mb-2">最高學歷：{{pageContent.highestDegree}}</div>
                     </template>
 
                     <template v-if="pageContent.perWeekWorkHours!=null">
-                        <div class="mb-2">一週工時：</div>
+                        <div class="mb-2">一週工時：{{pageContent.perWeekWorkHours}}</div>
                     </template>
 
                     <template v-if="pageContent.isGood!=null">
-                        <div class="mb-2">是否推薦：</div>
+                        <div class="mb-2">是否推薦：{{pageContent.isGood}}</div>
 
                     </template>
 
@@ -111,7 +123,6 @@
 
 
 
-        {{pageContent}}
     </div>
 
 </body>

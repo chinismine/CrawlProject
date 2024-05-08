@@ -28,6 +28,9 @@ public class JobShareInfo {
 		@Column(name = "share_date")
 		private String shareDate;
 		
+		@Column(name = "page_title")
+		private String pageTitle;
+		
 		@Column(name = "share_type")
 		private String shareType;
 		

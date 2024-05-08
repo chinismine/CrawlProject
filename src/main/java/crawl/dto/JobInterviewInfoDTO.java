@@ -18,6 +18,8 @@ public class JobInterviewInfoDTO {
 	
 	private String shareDate;
 	
+	private String pageTitle;
+	
 	private String shareType;
 	
 //	公司：

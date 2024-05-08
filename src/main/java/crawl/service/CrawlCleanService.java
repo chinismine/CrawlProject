@@ -84,9 +84,9 @@ public class CrawlCleanService {
 				jobBean.setShareType(type.html());
 				jobBean.setSearchedCount(1);
 				jobBean.setJobId(jid);
-//				executor.submit(() -> {
-//		            jobRepo.save(jobBean);
-//		        });
+				executor.submit(() -> {
+		            jobRepo.save(jobBean);
+		        });
 				return interview;
 			}else if("工作心得".equals(type.html())) {
 				WorkReviewInfoDTO review = formatWorkReviewInfo(doc);
@@ -94,9 +94,9 @@ public class CrawlCleanService {
 				jobBean.setShareType(type.html());
 				jobBean.setSearchedCount(1);
 				jobBean.setJobId(jid);
-//				executor.submit(() -> {
-//		            jobRepo.save(jobBean);
-//		        });
+				executor.submit(() -> {
+		            jobRepo.save(jobBean);
+		        });
 				return review;
 			}
 			
@@ -113,8 +113,9 @@ public class CrawlCleanService {
 	public JobInterviewInfoDTO formatInterviewInfo(Document doc) {
 		
 		JobInterviewInfoDTO jDto=new JobInterviewInfoDTO();
-		
+		jDto.setShareType(doc.select(".src-components-ExperienceDetail-Heading-__Heading-module___badge").html());
 		jDto.setShareDate(doc.select(".src-components-ExperienceDetail-Article-__Article-module___date").html());
+		jDto.setPageTitle(doc.select(".src-components-common-base-__Heading-module___l").get(0).text());
 		Elements contents=doc.select(".src-components-ExperienceDetail-Article-__InfoBlock-module___content");
 		//先將contents前元素文字取出（標題）依序存成陣列，比對陣列文字，再使用陣列索引取得內容
 		List<String> titleList=new ArrayList<>();
@@ -175,7 +176,10 @@ public class CrawlCleanService {
 	public WorkReviewInfoDTO formatWorkReviewInfo(Document doc) {
 		WorkReviewInfoDTO wDto=new WorkReviewInfoDTO();
 		
+		wDto.setShareType(doc.select(".src-components-ExperienceDetail-Heading-__Heading-module___badge").html());
+
 		wDto.setShareDate(doc.select(".src-components-ExperienceDetail-Article-__Article-module___date").html());
+		wDto.setPageTitle(doc.select(".src-components-common-base-__Heading-module___l").get(0).text());
 		Elements contents=doc.select(".src-components-ExperienceDetail-Article-__InfoBlock-module___content");
 		
 		//先將contents前元素文字取出（標題）依序存成陣列，比對陣列文字，再使用陣列索引取得內容

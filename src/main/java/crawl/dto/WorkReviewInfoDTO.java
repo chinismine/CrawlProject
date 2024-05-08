@@ -12,6 +12,7 @@ public class WorkReviewInfoDTO {
 	private String jobId;
 	
 	private String shareDate;
+	private String pageTitle;
 	
 	private String shareType;
 	
