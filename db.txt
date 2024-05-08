@@ -1,3 +1,10 @@
+Create Database test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+use test;
+
+CREATE USER 'test_user'@'localhost' IDENTIFIED BY 'P@ssw0rd';
+GRANT ALL PRIVILEGES ON test.* TO 'test_user'@'localhost';
+
+FLUSH PRIVILEGES;
 use test;
 drop table job_share_info;
 CREATE TABLE job_share_info (
@@ -26,31 +33,3 @@ CREATE TABLE job_share_info (
 
 
 
-
-Create Database test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-use test;
-
-
-CREATE TABLE student (
-    s_id INT AUTO_INCREMENT PRIMARY KEY,
-    s_name VARCHAR(10)
-);
-
-INSERT INTO student (s_name) VALUES
-('張艾琳'),
-('李嘉莉'),
-('王宏偉'),
-('趙美玲'),
-('鄭文彬'),
-('陳思婷'),
-('楊心怡'),
-('周家豪'),
-('吳雅婷'),
-('劉宗翰');
-
-CREATE USER 'test_user'@'localhost' IDENTIFIED BY 'P@ssw0rd';
-GRANT ALL PRIVILEGES ON test.* TO 'test_user'@'localhost';
-
-CREATE USER 'test_user'@'42-77-7-104.emome-ip.hinet.net' IDENTIFIED BY 'P@ssw0rd';
-GRANT ALL PRIVILEGES ON test.* TO 'test_user'@'42-77-7-104.emome-ip.hinet.net';
-FLUSH PRIVILEGES;
