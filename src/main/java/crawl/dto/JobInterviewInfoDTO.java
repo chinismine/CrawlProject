@@ -48,6 +48,9 @@ public class JobInterviewInfoDTO {
 //	面試結果：
 	private String result;
 	
+	private String treatment;
+
+	
 //	整體面試滿意度：?/5
 	private Integer satisfactionScore;
 	

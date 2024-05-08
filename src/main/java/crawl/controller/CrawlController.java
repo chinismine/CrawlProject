@@ -1,6 +1,7 @@
 package crawl.controller;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -10,9 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import crawl.service.CrawlCleanService;
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 public class CrawlController {
@@ -21,9 +24,10 @@ public class CrawlController {
 	CrawlCleanService service;
 	
 	@PostMapping("/crawl")
-	public  Object getPageContent(@RequestBody String url) {
+	public  Object getPageContent(@RequestBody Map<String, String> reqbody) {
+		String url = reqbody.get("url");
 		
-		return service.ReturnService("https://www.goodjob.life/experiences/662799cc6f3226447aa24ac5");
+		return service.ReturnService(url);
 		
 	}
 

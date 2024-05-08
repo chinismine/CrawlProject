@@ -19,10 +19,9 @@
 
 <body>
     <div id="app" class="container mt-3">
-
+        <div class="text-secondary text-end">開發期程：2024/5/6-</div>
         <h1>偷窺 GoodJobs 內容</h1>
-
-        <!-- search -->
+        <!-- search-->
         <div>
             <div class="input-group mb-3 mt-3">
                 <input v-model="url" type="text" class="form-control"
@@ -31,36 +30,85 @@
                 <button @click="submitUrl()" class="btn btn-outline-secondary" type="button"
                     id="button-addon2">Go</button>
             </div>
+            <div>{{errURLMsg}}</div>
         </div>
-
+        <!-- search end-->
         <hr>
-        <div class="row align-content-center">
-            <div class="col-auto mt-2">
-                <span class="bg-warning mr-3 p-1 text-center text-white">#面試經驗</span>
-            </div>
-            <div class="col">
-                <h2>工程師</h2>
-            </div>
-        </div>
 
-        <div class="border mt-5" id="crawl">
-            <!-- basic info -->
-            <div class="bg-light p-3">
-                <div class="mb-2">公司：</div>
-                <div class="mb-2">面試地區：</div>
-                <div class="mb-2">應徵職稱：</div>
-                <div class="mb-2">相關職務工作經驗：</div>
-                <div class="mb-2">面試時間：</div>
-                <div class="mb-2">面試結果：</div>
-                <div class="mb-2">整體面試滿意度：</div>
-            </div>
-            <div class="p-3">
-                <h5>分享內容</h5>
-
+        <template v-if="pageContent!=''">
+            <div class="row align-content-center">
+                <div class="col-auto mt-2">
+                    <span class="bg-warning mr-3 p-1 text-center text-white">#面試經驗</span>
+                </div>
+                <div class="col">
+                    <h2>工程師</h2>
+                </div>
             </div>
 
-            <!-- share article -->
-        </div>
+            <div class="border mt-5" id="crawl">
+                <!-- basic info -->
+                <div class="bg-light p-3">
+                    <template v-if="pageContent.companyName!=null">
+                        <div class="mb-2">公司：{{}}</div>
+                    </template>
+                    <template v-if="pageContent.area!=null">
+                        <div class="mb-2">地區：{{}}</div>
+                    </template>
+
+
+                    <template v-if="pageContent.jobTitle!=null">
+                        <div class="mb-2">職稱：{{}}</div>
+                    </template>
+
+                    <template v-if="pageContent.relativeExperienceYear!=null">
+                        <div class="mb-2">相關職務工作經驗：{{}}</div>
+                    </template>
+
+                    <template v-if="pageContent.interviewTime!=null">
+                        <div class="mb-2">面試時間：{{}}</div>
+                    </template>
+
+                    <template v-if="pageContent.result!=null">
+                        <div class="mb-2">面試結果：</div>
+                    </template>
+
+                    <template v-if="pageContent.treatment!=null">
+                        <div class="mb-2">待遇：</div>
+                    </template>
+
+                    <template v-if="pageContent.satisfactionScore!=null">
+                        <div class="mb-2">整體面試滿意度：</div>
+                    </template>
+
+                    <template v-if="pageContent.oddQuestions!=null">
+                        <div class="mb-2">特殊問題：</div>
+                    </template>
+
+                    <template v-if="pageContent.highestDegree!=null">
+                        <div class="mb-2">最高學歷：</div>
+                    </template>
+
+                    <template v-if="pageContent.perWeekWorkHours!=null">
+                        <div class="mb-2">一週工時：</div>
+                    </template>
+
+                    <template v-if="pageContent.isGood!=null">
+                        <div class="mb-2">是否推薦：</div>
+
+                    </template>
+
+                </div>
+                <div class="p-3">
+                    <h5>分享內容</h5>
+                    <div v-html="article"></div>
+
+                </div>
+
+                <!-- share article -->
+            </div>
+
+        </template>
+
 
 
         {{pageContent}}
@@ -77,15 +125,27 @@
             return {
                 pageContent: "",
                 url: "",
+                errURLMsg: "",
+                article: "",
             }
         },
         methods: {
             submitUrl() {
                 let data = { url: this.url };
-                console.log(data);
+                // console.log(data);
+                if (this.url == "") {
+                    this.errURLMsg = "請輸入網址";
+                    return;
+                } else if (!this.url.includes("https://www.goodjob.life/experiences/")) {
+                    this.errURLMsg = "請輸入goodjob.life網址";
+                    return;
+                } else {
+                    this.errURLMsg = "";
+                }
                 axios.post("/crawl", data)
                     .then((response) => {
                         this.pageContent = response.data;
+                        this.article = this.pageContent.shareContent;
                     })
             }
         },
