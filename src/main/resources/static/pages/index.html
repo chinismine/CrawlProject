@@ -22,6 +22,7 @@
     <div id="app" class="container mt-3 mb-5">
         <div class="text-secondary text-end">開發期程：2024/5/6-2024/5/8</div>
         <h1>偷窺 <a href="https://www.goodjob.life" target="_blank">GoodJobs</a> 內容</h1>
+
         <!-- search-->
         <div>
             <div class="input-group mb-3 mt-3">
@@ -34,6 +35,12 @@
             <div>{{errURLMsg}}</div>
         </div>
         <!-- search end-->
+        <div class="bg-light p-3 mb-2 mt-2">
+            <strong>使用說明</strong><br>
+            *把goodjob網頁中，某工作職缺的「工作心得」或是「面試經驗」頁面的網址貼入就可以看到完整內容。<br>
+            *網址前綴要是'https://www.goodjob.life/experiences/'<br>
+            <i class="text-secondary">建議不要大聲張揚，怕被goodjob發現他們的內容可以被爬出來看。</i>
+        </div>
 
         <template v-if="pageContent!='' && loading==false">
             <hr>
